@@ -1,8 +1,6 @@
 import pandas as pd
 
-# =====================================================
 # Load Cleaned Datasets
-# =====================================================
 
 customers = pd.read_csv("data/processed/customers_clean.csv")
 
@@ -24,9 +22,9 @@ category_translation = pd.read_csv(
     "data/processed/category_translation_clean.csv"
 )
 
-# =====================================================
+
 # Data Validation Function
-# =====================================================
+
 
 def validate_dataset(name, df, primary_key=None):
 
@@ -50,9 +48,8 @@ def validate_dataset(name, df, primary_key=None):
     print("\n")
 
 
-# =====================================================
 # Validate Individual Datasets
-# =====================================================
+
 
 validate_dataset(
     "Customers",
@@ -84,8 +81,7 @@ validate_dataset(
 
 validate_dataset(
     "Reviews",
-    reviews,
-    "review_id"
+    reviews
 )
 
 validate_dataset(
@@ -106,17 +102,17 @@ validate_dataset(
     "product_category_name"
 )
 
-# =====================================================
+
 # Foreign Key Validation
-# =====================================================
+
 
 print("=" * 70)
 print("FOREIGN KEY VALIDATION")
 print("=" * 70)
 
-# -----------------------------------------------------
+
 # Orders -> Customers
-# -----------------------------------------------------
+
 
 missing_customers = orders[
     ~orders["customer_id"].isin(customers["customer_id"])
@@ -124,9 +120,9 @@ missing_customers = orders[
 
 print(f"Orders without matching Customer : {len(missing_customers)}")
 
-# -----------------------------------------------------
+
 # Order Items -> Orders
-# -----------------------------------------------------
+
 
 missing_orders = order_items[
     ~order_items["order_id"].isin(orders["order_id"])
@@ -134,9 +130,9 @@ missing_orders = order_items[
 
 print(f"Order Items without matching Order : {len(missing_orders)}")
 
-# -----------------------------------------------------
+
 # Order Items -> Products
-# -----------------------------------------------------
+
 
 missing_products = order_items[
     ~order_items["product_id"].isin(products["product_id"])
@@ -144,9 +140,9 @@ missing_products = order_items[
 
 print(f"Order Items without matching Product : {len(missing_products)}")
 
-# -----------------------------------------------------
+
 # Order Items -> Sellers
-# -----------------------------------------------------
+
 
 missing_sellers = order_items[
     ~order_items["seller_id"].isin(sellers["seller_id"])
@@ -154,9 +150,9 @@ missing_sellers = order_items[
 
 print(f"Order Items without matching Seller : {len(missing_sellers)}")
 
-# -----------------------------------------------------
+
 # Payments -> Orders
-# -----------------------------------------------------
+
 
 missing_payment_orders = payments[
     ~payments["order_id"].isin(orders["order_id"])
@@ -164,9 +160,9 @@ missing_payment_orders = payments[
 
 print(f"Payments without matching Order : {len(missing_payment_orders)}")
 
-# -----------------------------------------------------
+
 # Reviews -> Orders
-# -----------------------------------------------------
+
 
 missing_review_orders = reviews[
     ~reviews["order_id"].isin(orders["order_id"])
@@ -174,9 +170,9 @@ missing_review_orders = reviews[
 
 print(f"Reviews without matching Order : {len(missing_review_orders)}")
 
-# =====================================================
+
 # Business Rule Validation
-# =====================================================
+
 
 print("\n" + "=" * 70)
 print("BUSINESS RULE VALIDATION")
